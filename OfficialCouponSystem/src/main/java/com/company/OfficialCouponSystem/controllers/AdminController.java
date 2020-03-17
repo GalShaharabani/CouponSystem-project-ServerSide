@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import com.company.OfficialCouponSystem.beans.Customer;
 import com.company.OfficialCouponSystem.services.AdminService;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
 @RequestMapping("/admin")
 public class AdminController {
 
@@ -48,7 +50,7 @@ public class AdminController {
 	}
 
 	@DeleteMapping("deleteCompany")
-	public ResponseEntity<?>deleteCustomer(@RequestParam(name = "id")String id) throws NumberFormatException, Exception{
+	public ResponseEntity<?>deleteCompany(@RequestParam(name = "id")String id) throws NumberFormatException, Exception{
 		adminService.deleteCompany(Long.parseLong(id));
 		return new ResponseEntity<>("company deleted",HttpStatus.OK);
 	}
@@ -57,5 +59,17 @@ public class AdminController {
 	public ResponseEntity<?>updateCompany(@RequestBody Company company) throws Exception{
 		adminService.updateCompany(company);
 		return new ResponseEntity<>("Company updated",HttpStatus.OK);
+	}
+	
+	@DeleteMapping("deleteCustomer")
+	public ResponseEntity<?>deleteCustomer(@RequestParam(name = "id")String id) throws NumberFormatException, Exception{
+		adminService.deleteCustomer(Long.parseLong(id));
+		return new ResponseEntity<>("customer deleted",HttpStatus.OK);
+	}
+	
+	@PutMapping("updateCustomer")
+	public ResponseEntity<?>updateCustomer(@RequestBody Customer customer) throws Exception{
+		adminService.updateCustomer(customer);
+		return new ResponseEntity<>("customer updated",HttpStatus.OK);
 	}
 }
